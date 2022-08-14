@@ -27,6 +27,9 @@ nav{
 .calci-div{
 	width: fit-content;
 	margin: 50px auto;
+	padding: 20px 10px;
+	background-color: rgb(214, 207, 207);
+	border-radius: 8px;
 }
 
 input{
@@ -49,8 +52,9 @@ button{
 	color: white;
 	font-size: larger;
 	border: none;
-	margin: 1px;
+	margin: 2px;
 	cursor: pointer;
+	font-weight: 600;
 }
 
 button:hover{

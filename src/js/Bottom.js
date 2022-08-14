@@ -4,184 +4,98 @@ export default function Bottom(){
     const [text, setText] = React.useState("0")
     const operators = ["+", "-", "*", "/", "%"]
 
+    // checking if the input contains any text or not
     function inputIsNotEmpty(){
-        if((text == "") || (text == "0")){
-            alert('Enter a digit first!')
-            setText("0")
+        if((text == "") || (text == undefined) || (text == "0")){
             return false
         }
 
         return true
     }
 
-    // for CE Button
-    function handleClickClear(){
-        setText("")
+    // clearing the input text completely
+    function clearInputField(){
+        // if contains anything, clearing the text field
+        // else, do nothing
+        if(inputIsNotEmpty()){
+            setText("0")
+        }
     }
 
-    // for operators
-    function handleClickModulo(){
-        setText(function(oldText){
-            if(inputIsNotEmpty()){
-                return oldText + "%"
+    // clearing the last character
+    function backButton(){
+        // if contains anything, clearing the last character
+        // else, do nothing
+        if(inputIsNotEmpty()){
+            setText(function(text){
+                return text.slice(0, text.length - 1)
+            })
+        }
+    }
+
+    // adding the numbers to the input column
+    function numbersInput(text){
+        if(inputIsNotEmpty()){
+            // input text contains something already
+            // so adding the current number with the previous text
+            setText(old => old + text)
+        }
+        else{
+            setText(text)
+        }
+    }
+
+    // adding the operators to the input column
+    function operatorsInput(operator){
+        // if the input column is empty or contains only zero
+            // showing an alert that 'Enter some digits first'
+        // else
+            // adding the operator to the already existing text
+        if(inputIsNotEmpty()){
+            // now checking if the last character is an operator
+            // if(operators.includes(text.charAt(text.length - 1))){
+            //     alert("Two operators don't come together")
+            // }
+            // else{
+            //     setText(old => old + operator)
+            // }
+
+            // as of now only one operation is supported
+            let once = false
+            for(let i = 0; i < text.length; i++){
+                let x = text.charAt(i)
+                if(operators.includes(x)){
+                    once = true
+                    break
+                }
             }
-        })
-    }
 
-    function handleClickPlus(){
-        setText(function(oldText){
-            if(inputIsNotEmpty()){
-                return oldText + "+"
-            }
-        })
-    }
-
-    function handleClickMinus(){
-        setText(function(oldText){
-            if(inputIsNotEmpty()){
-                return oldText + "-"
-            }
-        })
-    }
-
-    function handleClickMulti(){
-        setText(function(oldText){
-            if(inputIsNotEmpty()){
-                return oldText + "*"
-            }
-        })
-    }
-
-    function handleClickDivide(){
-        setText(function(oldText){
-            if(inputIsNotEmpty()){
-                return oldText + "/"
-            }
-        })
-    }
-
-    // for numbers
-    function handleClickOne(){
-        setText(function(oldText){
-            if((oldText == "") || (oldText == "0")){
-                return "1"
+            if(once){
+                alert('Only one operation is supported!')
             }
             else{
-                return oldText + "1"
+                setText(old => old + operator)
             }
-        })
+        }
+        else{
+            alert('Enter some digit first!')
+            setText("0")
+        }
     }
 
-    function handleClickTwo(){
-        setText(function(oldText){
-            if((oldText == "") || (oldText == "0")){
-                return "2"
-            }
-            else{
-                return oldText + "2"
-            }
-        })
+    // function to show non-functional alert
+    function nonFunctional(){
+        alert('Non functional bro!')
     }
 
-    function handleClickThree(){
-        setText(function(oldText){
-            if((oldText == "") || (oldText == "0")){
-                return "3"
-            }
-            else{
-                return oldText + "3"
-            }
-        })
-    }
+    // function to evaluate the answers
+    function equate(){
+        if(inputIsNotEmpty()){
 
-    function handleClickFour(){
-        setText(function(oldText){
-            if((oldText == "") || (oldText == "0")){
-                return "4"
-            }
-            else{
-                return oldText + "4"
-            }
-        })
-    }
-
-    function handleClickFive(){
-        setText(function(oldText){
-            if((oldText == "") || (oldText == "0")){
-                return "7"
-            }
-            else{
-                return oldText + "7"
-            }
-        })
-    }
-
-    function handleClickSix(){
-        setText(function(oldText){
-            if((oldText == "") || (oldText == "0")){
-                return "6"
-            }
-            else{
-                return oldText + "6"
-            }
-        })
-    }
-
-    function handleClickSeven(){
-        setText(function(oldText){
-            if((oldText == "") || (oldText == "0")){
-                return "7"
-            }
-            else{
-                return oldText + "7"
-            }
-        })
-    }
-
-    function handleClickEight(){
-        setText(function(oldText){
-            if((oldText == "") || (oldText == "0")){
-                return "8"
-            }
-            else{
-                return oldText + "8"
-            }
-        })
-    }
-
-    function handleClickNine(){
-        setText(function(oldText){
-            if((oldText == "") || (oldText == "0")){
-                return "9"
-            }
-            else{
-                return oldText + "9"
-            }
-        })
-    }
-
-    function handleClickZero(){
-        setText(function(oldText){
-            if((oldText == "") || (oldText == "0")){
-                return "0"
-            }
-            else{
-                return oldText + "0"
-            }
-        })
-    }
-
-    // = operator
-    function handleClickEquate(){
-        setText(function(oldText){
-            if((oldText == "") || (oldText == "0")){
-                alert('Nothing to equate')
-                return("0")
-            }
-            else{
-                return oldText + "7"
-            }
-        })
+        }
+        else{
+            alert('Enter something first!')
+        }
     }
 
     return (
@@ -191,72 +105,72 @@ export default function Bottom(){
                 <table>
                     <tr>
                         <td>
-                            <button onClick={handleClickModulo}>%</button>
+                            <button onClick={() => operatorsInput("%")}>%</button>
                         </td>
                         <td>
-                            <button onClick={handleClickClear}>CE</button>
+                            <button style={{backgroundColor: "red"}} onClick={() => clearInputField()}>CE</button>
                         </td>
                         <td>
-                            <button>C</button>
+                            <button onClick={backButton}>C</button>
                         </td>
                         <td>
-                            <button onClick={handleClickDivide}>{"/"}</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button onClick={handleClickSeven}>7</button>
-                        </td>
-                        <td>
-                            <button onClick={handleClickEight}>8</button>
-                        </td>
-                        <td>
-                            <button onClick={handleClickNine}>9</button>
-                        </td>
-                        <td>
-                            <button onClick={handleClickMulti}>{"*"}</button>
+                            <button onClick={() => operatorsInput("/")}>{"/"}</button>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <button onClick={handleClickFour}>4</button>
+                            <button onClick={() => numbersInput("7")}>7</button>
                         </td>
                         <td>
-                            <button onClick={handleClickFive}>5</button>
+                            <button onClick={() => numbersInput("8")}>8</button>
                         </td>
                         <td>
-                            <button onClick={handleClickSix}>6</button>
+                            <button onClick={() => numbersInput("9")}>9</button>
                         </td>
                         <td>
-                            <button onClick={handleClickMinus}>{"-"}</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button onClick={handleClickOne}>1</button>
-                        </td>
-                        <td>
-                            <button onClick={handleClickTwo}>2</button>
-                        </td>
-                        <td>
-                            <button onClick={handleClickThree}>3</button>
-                        </td>
-                        <td>
-                            <button onClick={handleClickPlus}>{"+"}</button>
+                            <button onClick={() => operatorsInput("*")}>{"*"}</button>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <button >+/-</button>
+                            <button onClick={() => numbersInput("4")}>4</button>
                         </td>
                         <td>
-                            <button onClick={handleClickZero}>0</button>
+                            <button onClick={() => numbersInput("5")}>5</button>
                         </td>
                         <td>
-                            <button>.</button>
+                            <button onClick={() => numbersInput("6")}>6</button>
                         </td>
                         <td>
-                            <button onClick={handleClickEquate}>{"="}</button>
+                            <button onClick={() => operatorsInput("-")}>{"-"}</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button onClick={() => numbersInput("1")}>1</button>
+                        </td>
+                        <td>
+                            <button onClick={() => numbersInput("2")}>2</button>
+                        </td>
+                        <td>
+                            <button onClick={() => numbersInput("3")}>3</button>
+                        </td>
+                        <td>
+                            <button onClick={() => operatorsInput("+")}>{"+"}</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button onClick={nonFunctional}>+/-</button>
+                        </td>
+                        <td>
+                            <button onClick={() => numbersInput("0")}>0</button>
+                        </td>
+                        <td>
+                            <button onClick={nonFunctional}>.</button>
+                        </td>
+                        <td>
+                            <button onClick={equate}>=</button>
                         </td>
                     </tr>
                 </table>
