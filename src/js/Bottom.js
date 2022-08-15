@@ -4,10 +4,14 @@ export default function Bottom(){
     const [text, setText] = React.useState("0")
     const operators = ["+", "-", "*", "/", "%"]
 
-    // checking if the input contains any text or not
+    // checking if the input contains any text 
     function inputIsNotEmpty(){
         if((text == "") || (text == undefined) || (text == "0")){
             return false
+        }
+        else if(text.charAt(0) == "A"){
+            setText(old => old.slice(5))
+            return true
         }
 
         return true
@@ -15,11 +19,7 @@ export default function Bottom(){
 
     // clearing the input text completely
     function clearInputField(){
-        // if contains anything, clearing the text field
-        // else, do nothing
-        if(inputIsNotEmpty()){
-            setText("0")
-        }
+        setText("0")
     }
 
     // clearing the last character
@@ -45,6 +45,22 @@ export default function Bottom(){
         }
     }
 
+    // function to check if any operator is present in the text
+    function isOperatorsPresent(){
+        let once = false
+        for(let i = 0; i < text.length; i++){
+            let x = text.charAt(i)
+            if(i > 0){
+                if(operators.includes(x)){
+                    once = true
+                    break
+                }
+            }
+        }
+
+        return once
+    }
+
     // adding the operators to the input column
     function operatorsInput(operator){
         // if the input column is empty or contains only zero
@@ -61,16 +77,7 @@ export default function Bottom(){
             // }
 
             // as of now only one operation is supported
-            let once = false
-            for(let i = 0; i < text.length; i++){
-                let x = text.charAt(i)
-                if(operators.includes(x)){
-                    once = true
-                    break
-                }
-            }
-
-            if(once){
+            if(isOperatorsPresent()){
                 alert('Only one operation is supported!')
             }
             else{
@@ -91,7 +98,48 @@ export default function Bottom(){
     // function to evaluate the answers
     function equate(){
         if(inputIsNotEmpty()){
+            if(isOperatorsPresent()){
+                // going through each and every character of the text and checking if it is an operator
+                for(let i = 0; i < text.length; i++){
+                    if(operators.includes(text.charAt(i))){
+                        let array = text.split(text.charAt(i))
+                        
+                        if(array[1] == ""){
+                            // user entered only one operand and an operator
+                            // like, 9+
+                            setText(`Ans: ${array[0]}`)
+                        }
+                        else{
+                            // actual equating
+                            switch(text.charAt(i)){
+                                case "+":{
+                                    setText(`Ans: ${parseInt(array[0]) + parseInt(array[1])}`)
+                                    break
+                                }
+                                case "-":{
+                                    setText(`Ans: ${parseInt(array[0]) - parseInt(array[1])}`)
+                                    break
+                                }
+                                case "*":{
+                                    setText(`Ans: ${parseInt(array[0]) * parseInt(array[1])}`)
+                                    break
+                                }
+                                case "/":{
+                                    setText(`Ans: ${parseInt(array[0]) / parseInt(array[1])}`)
+                                    break
+                                }
+                            }
+                        }
 
+                        break
+                    }
+                }
+            }
+            else{
+                // no operator is entered
+                // so displaying the present text as the answer
+                setText(`Ans: ${text}`)
+            }
         }
         else{
             alert('Enter something first!')
