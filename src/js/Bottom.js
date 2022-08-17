@@ -92,7 +92,7 @@ export default function Bottom(){
 
     // function to show non-functional alert
     function nonFunctional(){
-        alert('Non functional bro!')
+        alert('Oops! Non-functional')
     }
 
     // function to evaluate the answers
@@ -153,7 +153,7 @@ export default function Bottom(){
                 <table>
                     <tr>
                         <td>
-                            <button onClick={() => operatorsInput("%")}>%</button>
+                            <button onClick={nonFunctional}>%</button>
                         </td>
                         <td>
                             <button style={{backgroundColor: "red"}} onClick={() => clearInputField()}>CE</button>
