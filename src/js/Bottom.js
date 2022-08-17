@@ -4,7 +4,7 @@ export default function Bottom(){
     const [text, setText] = React.useState("0")
     const operators = ["+", "-", "*", "/", "%"]
 
-    // checking if the input contains any text 
+    // checking if the input contains any text 2
     function inputIsNotEmpty(){
         if((text == "") || (text == undefined) || (text == "0")){
             return false
